@@ -11,7 +11,7 @@ This repository contains the solution code for the following units -
     - 02-curl
     - 03-links_browser
     - 05-combining_curl_with_apis
-  - 02-ConsumingAPIsUsingJavaScript
+  - 02ConsumingAPIsUsingJavaScript
     - 01-xhr
     - 02-json.parse
     - 03-getting_functional
