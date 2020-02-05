@@ -14,6 +14,7 @@ function getData(type, cb) { //The second parameter stand for callback
 
 }
 
+
 function getTableHeaders(obj) {//This function take every key of an array and store them inside an empty array
     var tableHeaders = [];
 
@@ -26,6 +27,8 @@ function getTableHeaders(obj) {//This function take every key of an array and st
 
 //The following function is called in html
 function writeToDocument(type) { //The argument is passed in line (people, film, starship ecc..)
+    var tableRows = [];
+    
     var el = document.getElementById("data");
     el.innerHTML = ""; //Every time the function is called (on click), the variable is emptied before is loaded again, this prevent the arrays to stack on top of each others
 
@@ -33,10 +36,15 @@ function writeToDocument(type) { //The argument is passed in line (people, film,
         data = data.results; //.results are properties (arrays) of those specific objects
         var tableHeaders = getTableHeaders(data[0]); //Store the first key of the results property (data = data.results). It will be used as table header
 
-        data.forEach(function(item) { //Since JSON objects can be treated as arrays, the .forEach can be used to get a list to be "printed" on the page using .innerHTML as setter
-            el.innerHTML += "<p>" + item.name + "</p>";
+        data.forEach(function(item) { //Create a row of data for every record in the array and store it in the dataRow var
+            var dataRow = [];
+
+            Object.keys(item).forEach(function(key) {
+                dataRow.push(`<td>${item[key]}</td>`);
+            });
+            tableRows.push(dataRow)
         });
 
-        el.innerHTML =`<table>${tableHeaders}</table>`; 
+        el.innerHTML = `<table>${tableHeaders}${tableRows}</table>`; //Print the table
     });
 };
