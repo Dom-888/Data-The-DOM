@@ -28,21 +28,20 @@ function getTableHeaders(obj) {//This function take every key of an array and st
 //The following function is called in html
 function writeToDocument(type) { //The argument is passed in line (people, film, starship ecc..)
     var tableRows = [];
-    
     var el = document.getElementById("data");
-    el.innerHTML = ""; //Every time the function is called (on click), the variable is emptied before is loaded again, this prevent the arrays to stack on top of each others
-
+   
     getData(type, function(data) { //This callback just pass the JSON object, in fact data == cb
         data = data.results; //.results are properties (arrays) of those specific objects
         var tableHeaders = getTableHeaders(data[0]); //Store the first key of the results property (data = data.results). It will be used as table header
 
         data.forEach(function(item) { //Create a row of data for every record in the array and store it in the dataRow var
             var dataRow = [];
-
             Object.keys(item).forEach(function(key) {
-                dataRow.push(`<td>${item[key]}</td>`);
+                var rowData = item[key].toString(); 
+                var truncatedData = rowData.substring(0, 15); //Truncates the row to prevent horizontal scrolling
+                dataRow.push(`<td>${truncatedData}</td>`);
             });
-            tableRows.push(dataRow)
+            tableRows.push(`<tr>${dataRow}</tr>`);
         });
 
         el.innerHTML = `<table>${tableHeaders}${tableRows}</table>`; //Print the table
