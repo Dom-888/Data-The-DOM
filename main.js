@@ -25,12 +25,31 @@ function getTableHeaders(obj) {//This function take every key of an array and st
     return `<tr>${tableHeaders}</tr>`;
 }
 
+//Generate next and previous buttons
+function generatePaginationButtons(next, prev) {
+    if (next && prev) {
+        return `<button onclick="writeToDocument('${prev}')">Previous</button>`;
+        return `<button onclick="writeToDocument('${next}')">Next</button>`;
+    } else if (next && !prev) {
+        return `<button onclick="writeToDocument('${next}')">Next</button>`;}
+    } else if (!next && prev) {
+        return `<button onclick="writeToDocument('${prev}')">Previous</button>`;}        
+}
+
+
 //The following function is called in html
 function writeToDocument(type) { //The argument is passed in line (people, film, starship ecc..)
     var tableRows = [];
     var el = document.getElementById("data");
    
     getData(type, function(data) { //This callback just pass the JSON object, in fact data == cb
+        
+        //??
+        if (data.next || data.previous) {
+            var pagination; //Empty var
+            pagination = generatePaginationButtons(data.next, data.previous)
+        }
+        
         data = data.results; //.results are properties (arrays) of those specific objects
         var tableHeaders = getTableHeaders(data[0]); //Store the first key of the results property (data = data.results). It will be used as table header
 
